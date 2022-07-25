@@ -1,0 +1,115 @@
+[gd_scene load_steps=12 format=3 uid="uid://ci2at4e7f6qim"]
+
+[ext_resource type="Script" path="res://PhysicsBasedController.gd" id="1_jrucs"]
+[ext_resource type="Curve" uid="uid://cehdyg40cksga" path="res://acceleration_curve.tres" id="2_fmegd"]
+[ext_resource type="PhysicsMaterial" uid="uid://cvge1ocr34eo4" path="res://low_friction.tres" id="3_8rjty"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vkn0h"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nlpow"]
+albedo_color = Color(0.0509804, 0.6, 0.309804, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_517c5"]
+material = SubResource("StandardMaterial3D_nlpow")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nt6gn"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_v6qvj"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_v876v"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8hf1r"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_le31m"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+transform = Transform3D(20, 0, 0, 0, 1, 0, 0, 0, 20, 0, 0, 0)
+shape = SubResource("BoxShape3D_vkn0h")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+transform = Transform3D(20, 0, 0, 0, 1, 0, 0, 0, 20, 0, 0, 0)
+mesh = SubResource("BoxMesh_517c5")
+
+[node name="Player" type="RigidDynamicBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+mass = 10.0
+can_sleep = false
+script = ExtResource("1_jrucs")
+ride_spring_strength = 2000.0
+ride_spring_damper = 100.0
+upright_spring_strength = 5000.0
+upright_spring_damper = 20.0
+max_speed = 5.0
+acceleration = 100.0
+acceleration_factor_from_dot = ExtResource("2_fmegd")
+max_acceleration = 75.0
+max_acceleration_force_factor_from_dot = ExtResource("2_fmegd")
+jump_force = 150.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+shape = SubResource("CapsuleShape3D_nt6gn")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
+mesh = SubResource("CapsuleMesh_v6qvj")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/MeshInstance3D"]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0.5, 0.5)
+mesh = SubResource("BoxMesh_v876v")
+
+[node name="RayCast3D" type="RayCast3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.95, 0)
+target_position = Vector3(0, -2.05, 0)
+
+[node name="DisableUprightTimer" type="Timer" parent="Player"]
+process_callback = 0
+wait_time = 0.2
+one_shot = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-1, 2.99004e-08, -8.21506e-08, 0, 0.939693, 0.34202, 8.74228e-08, 0.34202, -0.939693, 0, 5, -10)
+current = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.328867, 0.727654, -0.601968, 0, 0.637424, 0.770513, 0.944376, -0.253396, 0.209627, 0, 13.582, 0)
+
+[node name="Box Light" type="RigidDynamicBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.69529, 3.13252, -6.31457)
+physics_material_override = ExtResource("3_8rjty")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Box Light"]
+shape = SubResource("BoxShape3D_8hf1r")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Box Light"]
+mesh = SubResource("BoxMesh_le31m")
+
+[node name="Box Medium" type="RigidDynamicBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5491, 3.13252, -6.46971)
+mass = 50.0
+physics_material_override = ExtResource("3_8rjty")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Box Medium"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+shape = SubResource("BoxShape3D_8hf1r")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Box Medium"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+mesh = SubResource("BoxMesh_le31m")
+
+[node name="Box Heavy" type="RigidDynamicBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.7756, 3.13252, 1.0046)
+mass = 200.0
+physics_material_override = ExtResource("3_8rjty")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Box Heavy"]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+shape = SubResource("BoxShape3D_8hf1r")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Box Heavy"]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+mesh = SubResource("BoxMesh_le31m")
+
+[connection signal="timeout" from="Player/DisableUprightTimer" to="Player" method="_on_disable_upright_timer_timeout"]
