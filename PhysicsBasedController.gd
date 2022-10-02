@@ -29,7 +29,7 @@ func _ready():
 
 func _integrate_forces(state):
 	var move_input = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
-	var jump_input = Input.is_action_just_pressed("jump")
+	var jump_input = false #Input.is_action_just_pressed("jump")
 	var input_forward_from_camera = get_move_forward(move_input)
 	is_grounded = raycast_node.is_colliding()
 	if is_grounded:
