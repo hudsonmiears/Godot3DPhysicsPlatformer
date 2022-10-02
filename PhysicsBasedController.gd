@@ -1,4 +1,4 @@
-extends RigidDynamicBody3D
+extends RigidBody3D
 
 @export var ride_height: float = 0.5
 @export var ride_spring_strength: float
@@ -71,7 +71,7 @@ func get_upright_force(angular_velocity: Vector3, upright_target_rotation: Quate
 	var to_goal = get_shortest_rotation(upright_target_rotation, currentRot)
 	var rot_axis = to_goal.get_axis()
 	var rot_degrees = to_goal.get_angle()
-	var rot_radians = deg2rad(rot_degrees)
+	var rot_radians = deg_to_rad(rot_degrees)
 	rot_axis = rot_axis.normalized()
 	var spring_force = (rot_axis * (rot_radians * upright_spring_strength)) - (angular_velocity * upright_spring_damper)
 	return spring_force
@@ -87,11 +87,11 @@ func get_move_forward(move_input: Vector2) -> Vector3:
 func get_move_force(target_direction: Vector3, linear_velocity: Vector3, delta: float) -> Vector3:
 	var vel_dot = target_direction.normalized().dot(cur_goal_vel.normalized())
 	var vel_dot_0_1 = remap_to_0_1(vel_dot)
-	var accel = acceleration * acceleration_factor_from_dot.interpolate(vel_dot_0_1)
+	var accel = acceleration * acceleration_factor_from_dot.sample(vel_dot_0_1)
 	var goal_vel = target_direction.normalized() * max_speed
 	cur_goal_vel = cur_goal_vel.move_toward(goal_vel, accel * delta)
 	var needed_accel = (cur_goal_vel - linear_velocity) / delta
-	var max_accel_factor = max_acceleration_force_factor_from_dot.interpolate(vel_dot_0_1)
+	var max_accel_factor = max_acceleration_force_factor_from_dot.sample(vel_dot_0_1)
 	var max_accel = max_acceleration * max_accel_factor
 	var clamped = needed_accel.limit_length(max_accel)
 	if Input.get_action_raw_strength("debug_break") > 0:

@@ -34,7 +34,7 @@ shape = SubResource("BoxShape3D_vkn0h")
 transform = Transform3D(20, 0, 0, 0, 1, 0, 0, 0, 20, 0, 0, 0)
 mesh = SubResource("BoxMesh_517c5")
 
-[node name="Player" type="RigidDynamicBody3D" parent="."]
+[node name="Player" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 mass = 10.0
 can_sleep = false
@@ -76,7 +76,7 @@ current = true
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.328867, 0.727654, -0.601968, 0, 0.637424, 0.770513, 0.944376, -0.253396, 0.209627, 0, 13.582, 0)
 
-[node name="Box Light" type="RigidDynamicBody3D" parent="."]
+[node name="Box Light" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.69529, 3.13252, -6.31457)
 physics_material_override = ExtResource("3_8rjty")
 
@@ -86,7 +86,7 @@ shape = SubResource("BoxShape3D_8hf1r")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Box Light"]
 mesh = SubResource("BoxMesh_le31m")
 
-[node name="Box Medium" type="RigidDynamicBody3D" parent="."]
+[node name="Box Medium" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5491, 3.13252, -6.46971)
 mass = 50.0
 physics_material_override = ExtResource("3_8rjty")
@@ -99,7 +99,7 @@ shape = SubResource("BoxShape3D_8hf1r")
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 mesh = SubResource("BoxMesh_le31m")
 
-[node name="Box Heavy" type="RigidDynamicBody3D" parent="."]
+[node name="Box Heavy" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.7756, 3.13252, 1.0046)
 mass = 200.0
 physics_material_override = ExtResource("3_8rjty")
